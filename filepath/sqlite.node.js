@@ -38,10 +38,11 @@
 var fs = require("fs");
 var sql = require("sqlite3").verbose();
 
+var CUR_DIR = ".";
 var DIVIDER = "/";
-var CRLF = "\n";
-var FILEPATH_DB = DIVIDER + "filepath.db";
-var FILEPATH_TXT = DIVIDER + "filepath.txt";
+var CRLF = "\r\n";
+var FILEPATH_DB = CUR_DIR + DIVIDER + "filepath.db";
+var FILEPATH_TXT = CUR_DIR + DIVIDER + "filepath.txt";
 var TABLE_NAME = "aio_del_path";
 
 function serializeCallback() {
