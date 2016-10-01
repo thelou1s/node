@@ -53,10 +53,27 @@ var server = http.createServer(function onRequest(req, res) {
 	console.log(".");
 	console.log(".");
 	
-	res.write("Hello World2");
-	res.end();
+    router(req);
+	
+    function onEnd() {
+	    res.write("Hello World2 \n");
+	    res.end();
+    }
 
-	router(req);
+    db.each(
+        SQL_SELECT_ALL, 
+        function onEach(err, row) {
+		    if(err) {
+                throw err;
+            }
+            
+            res.write("onEach() " + row._id + ", " + row._time + ", " + row._tag + ", " + row._log + "\n");
+        }, 
+        function onCoplete() {
+            onEnd(); 
+        }
+    );
+
 });
 	
 
