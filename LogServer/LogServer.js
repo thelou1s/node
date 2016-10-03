@@ -110,5 +110,5 @@ function router(req) {
 
 server.listen(SERVER_PORT);
 
-console.log("server listenning on 8080");
+console.log("server listenning on " + SERVER_PORT);
 console.log("======================================================");
