@@ -48,6 +48,17 @@ db.serialize(onSerialize);
 var url = require("url");
 var SERVER_PORT = 8080;
 
+function onEnd(res) {
+    console.log("onEnd() ");
+    res.write("onEnd() Hello World2 \n");
+    res.end();
+}
+
+function onComplete(res) {
+    console.log("onComplete() ");
+    onEnd(res);
+}
+
 var server = http.createServer(function onRequest(req, res) {
 	//console.log("onRequest " + toString.call(req));
 	console.log(".");
@@ -55,11 +66,6 @@ var server = http.createServer(function onRequest(req, res) {
 	
     router(req);
 	
-    function onEnd() {
-	    res.write("Hello World2 \n");
-	    res.end();
-    }
-
     db.each(
         SQL_SELECT_ALL, 
         function onEach(err, row) {
@@ -67,11 +73,10 @@ var server = http.createServer(function onRequest(req, res) {
                 throw err;
             }
             
+            console.log("onEach() " + row._id);
             res.write("onEach() " + row._id + ", " + row._time + ", " + row._tag + ", " + row._log + "\n");
         }, 
-        function onCoplete() {
-            onEnd(); 
-        }
+        onComplete(res)
     );
 
 });
